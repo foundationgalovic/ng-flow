@@ -1,6 +1,6 @@
 {
   "name": "ng-flow",
-  "version": "2.7.7",
+  "version": "2.7.8",
   "ignore": [
     "**/.*",
     "test",
@@ -16,7 +16,7 @@
   "main": "./dist/ng-flow.js",
   "dependencies": {
     "angular": "~1",
-    "flow.js": "~2"
+    "flow.js": "https://github.com/foundationgalovic/flow.js.git#2.13.1"
   },
   "devDependencies": {
     "angular-mocks": "~1"

@@ -32,6 +32,7 @@
    * @param {Function} [opts.initFileFn]
    * @param {Function} [opts.readFileFn]
    * @param {Function} [opts.generateUniqueIdentifier]
+   * @param {bool} [opts.allowEmptyFileUploadInIe10]
    * @constructor
    */
   function Flow(opts) {
@@ -99,7 +100,8 @@
       successStatuses: [200, 201, 202],
       onDropStopPropagation: false,
       initFileFn: null,
-      readFileFn: webAPIFileRead
+      readFileFn: webAPIFileRead,
+      allowEmptyFileUploadInIe10: false
     };
 
     /**
@@ -585,7 +587,7 @@
       var files = [];
       each(fileList, function (file) {
         // https://github.com/flowjs/flow.js/issues/55
-        if ((!ie10plus || ie10plus && file.size > 0) && !(file.size % 4096 === 0 && (file.name === '.' || file.fileName === '.'))) {
+        if ((!ie10plus || this.opts.allowEmptyFileUploadInIe10 || ie10plus && file.size > 0) && !(file.size % 4096 === 0 && (file.name === '.' || file.fileName === '.'))) {
           var uniqueIdentifier = this.generateUniqueIdentifier(file);
           if (this.opts.allowDuplicateUploads || !this.getFromUniqueIdentifier(uniqueIdentifier)) {
             var f = new FlowFile(this, file, uniqueIdentifier);
@@ -1609,7 +1611,7 @@
    * Library version
    * @type {string}
    */
-  Flow.version = '2.13.0';
+  Flow.version = '2.13.1';
 
   if ( typeof module === "object" && module && typeof module.exports === "object" ) {
     // Expose Flow as module.exports in loaders that implement the Node
